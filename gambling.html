@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href = 'https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <title>Glamble</title>
+    <style>
+    body {
+        background-color: #0c1c24;
+        display: flex;
+        font-family: 'Roboto', sans-serif;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+
+    }
+    #title {
+        color: wheat;
+        text-align: center;
+        line-height: 110%;
+        font-size: 2vw;
+        margin-bottom: -1%;
+        font-weight: bold;
+    }
+    #verison {
+        color:wheat;
+    }
+    h2 {
+        text-align: center;
+        color: wheat;
+        font-weight: bold;
+    }
+    p {
+        color:wheat;
+        font-size: 1.2vw;
+    }
+    #addFakeToken{
+        width: 100px;
+    }
+    .bankButtonGrid{
+        position: flex;
+        display: grid;
+        align-items: center;
+        grid-template-columns: repeat(6,1fr);
+        gap: 10px;
+        justify-items: center;
+    }
+    .bankButtonGrid button {
+        width: 150px;
+        background-color: wheat;
+        border: 2px solid #8b7355;
+    }
+    button{
+        background-color: wheat;
+        border: 2px solid #8b7355;
+    }
+    input{
+        background-color: wheat;
+        border: 2px solid #8b7355;
+    }
+    select{
+        background-color: wheat;
+        border: 2px solid #8b7355;
+    }
+    #risk {
+        font-size: 1vw;
+    }
+    #footer {
+        position: static;
+        bottom: 0;
+        font-size: 0.8vw;
+        padding-top: 2%;
+    }
+</style>
+</head>
+<body>
+    <h1 id='title'>Fake Token Game</h1>
+    <p id='version'>V.1.0</p>
+
+    <p>
+        Add fake token <input type='number' id='addFakeToken' name='addFakeToken' value='1' step = '1' autocomplete="off""> <button id=addTokens onclick="addTokens()">Add fake tokens</button>
+    </p>
+    <p><b>Current Amount: $</b><span id="currentAmount">0.00</span></p>
+
+    <h2>Bank</h2>
+    <p>Bank Amount: $<span id="bankAmount">100000.00</span></p>
+    <div class = 'bankButtonGrid'>
+        <button id='depositToBank' onclick="depositAllToBank()">deposit All to Bank</button> 
+        <button id='depositToBank' onclick="withdrawAllFromBank()">Withdraw All to Bank</button> 
+        <button id='depositToBank' onclick="withdrawTokens(1)">Withdraw 1 Token</button> 
+        <button id='depositToBank' onclick="withdrawTokens(10)">Withdraw 10 Tokens</button> 
+        <button id='depositToBank' onclick="withdrawTokens(100)">Withdraw 100 Tokens</button> 
+        <button id='depositToBank' onclick="withdrawTokens(500)">Withdraw 500 Tokens</button> 
+    </div>
+    <p id='bankWarning'></p>
+
+    <h2>Multiplier Game</h2>
+        <p id='risk'>Risk Mode: <select name = 'riskMode' id='riskMode'>
+            <option value = 'easy'>Easy</option>
+            <option value = 'medium'>Medium</option>
+            <option value = 'hard'>Hard</option>
+        </select></p>
+        <button id='multiplierGame' onclick="multiplerGame()">Play Multiplier Game</button>
+        <p>New Amount: $<span id="newAmount">0.00</span></p>
+    
+    <h2>Dice Game</h2>
+        <p>Roll a dice and win if it lands on six!</p>
+        <button id='diceGame' onclick="diceGame()">Roll Dice (Cost: 10 Tokens)</button>
+        <p>Dice Result: <span id='diceResult'></span> </p>
+        <p>Winnings: <span id='diceWinnings'></span></p>
+    
+    <h2>Higher or Lower Game</h2>
+        <p>Guess if the next number will be higher or lower than the cuurent number!</p>
+        <p>Current Number: <span id="currentNumber">50</span></p>
+        <p>Enter the amount to bet: <input type = 'number' id='amountBet' name = 'amountBet' value = '1' step = '1' autocomplete="off""> </p>
+        <div class = 'HigherOrLower'>
+            <button id='higher' onclick="guessHigher()">Higher</button>
+            <button id='lower' onclick="guessLower()">Lower</button>
+        </div>
+        <p id='higherOrLowerResult'>Game Result:</p>
+    
+    <h2>Double or Nothing Game</h2>
+        <p>Enter the amount to bet: <input type = 'number' id='doubleOrNothingBet' name = 'doubleOrNothingBet' value = '1' step = '1' autocomplete="off""> </p>
+        <button id=addTokens onclick="doubleOrNothing()">Play Double or Nothing</button>
+        <p>Game Result: <span id='gameResult'></span> </p>
+        <p>New Amount: $<span id="newAmount2">0.00</span></p>
+
+    <p id="footer">Fake token game is a cool thing</p>
+</body>
+<script>
+    let currentTokens = 0
+    let bankAmount = 100000
+    let currentNumber = 50
+    // Helper functions
+    function updateAmounts(){
+        document.getElementById('currentAmount').innerText = currentTokens.toFixed(2)
+        document.getElementById('bankAmount').innerText = bankAmount.toFixed(2)
+        document.getElementById('newAmount').innerText = currentTokens.toFixed(2)
+        document.getElementById('newAmount2').innerText = currentTokens.toFixed(2)
+    }
+    function getRandomInt(max){
+        return Math.floor(Math.random()*max) + 1
+    }
+
+    function addTokens(){
+        const addAmount = parseFloat(document.getElementById('addFakeToken').value)
+        currentTokens += addAmount
+        updateAmounts()
+    }
+    function depositAllToBank(){
+        bankAmount += currentTokens
+        currentTokens = 0
+        updateAmounts()
+    }
+    function withdrawAllFromBank(){
+        currentTokens += bankAmount
+        bankAmount = 0
+        updateAmounts()
+    }
+    function withdrawTokens(amount){
+        if(bankAmount >= amount){
+            bankAmount -= amount
+            currentTokens += amount
+            updateAmounts()
+        } else {
+            document.getElementById('bankWarning').innerText = "The bank does not have enough money to withdraw!"
+            setTimeout(() => {
+                document.getElementById('bankWarning').innerText = ""
+            }, 10000);
+        }
+    }
+    function multiplerGame(){
+        const randomNumber = getRandomInt(100)
+        let outcome = 0
+        const risk = document.getElementById('riskMode').value
+        if(risk === 'easy'){
+            if(randomNumber<=40){
+                outcome = (currentTokens * 0.8)
+            }else if(randomNumber<=70){
+                outcome = (currentTokens * 1)
+            }else if(randomNumber<=95){
+                outcome = (currentTokens * 1.1)
+            }else{
+                outcome = (currentTokens * 2)
+            }
+        }else if(risk === 'medium'){
+            if(randomNumber<55){
+                outcome = (currentTokens * 0.5)
+            }else if(randomNumber<85){
+                outcome = (currentTokens * 1)
+            }else if(randomNumber<95){
+                outcome = (currentTokens * 2)
+            }else{
+                outcome = (currentTokens * 3)
+            }
+        }else if(risk === 'hard'){
+            if(randomNumber<=60){
+                outcome = (currentTokens * 0)
+            }else if(randomNumber<=90){
+                outcome = (currentTokens * 1)
+            }else if(randomNumber<=99){
+                outcome = (currentTokens * 5)
+            }else {
+                outcome = (currentTokens * 20)
+        }}
+        currentTokens = outcome
+        updateAmounts()
+    }
+
+    function diceGame(){
+        if (currentTokens >= 10){
+        currentTokens -= 10
+        updateAmounts()
+        const result = getRandomInt(6)
+        document.getElementById('diceResult').innerText = result
+        if(result === 6){
+            const winnings = 60
+            currentTokens += winnings
+            document.getElementById('diceWinnings').innerText = '$'+winnings
+        }else{
+            const winnings = 'You Lost'
+            document.getElementById('diceWinnings').innerText = winnings
+        }
+        updateAmounts()
+        }
+    }
+
+    function guessHigher(){
+        const randomNumber = getRandomInt(100)
+        const betAmount = parseFloat(document.getElementById('amountBet').value)
+        if(betAmount <= 0 || betAmount > currentTokens){
+            alert('Invalid bet amount!')
+            return
+        }
+        currentTokens -= betAmount
+        updateAmounts()
+        
+        if(randomNumber>currentNumber){
+            const outcome = betAmount * 2
+            currentTokens += outcome
+            updateAmounts()
+            document.getElementById('higherOrLowerResult').innerText = 'You won two times your bet: $' + outcome 
+        }else{
+            const outcome = -betAmount
+            document.getElementById('higherOrLowerResult').innerText = 'You lost, your outcome is: $' + outcome 
+        }
+        currentNumber = randomNumber
+        document.getElementById('currentNumber').innerText = randomNumber
+    }   
+    function guessLower(){
+        const randomNumber = getRandomInt(100)
+        const betAmount = parseFloat(document.getElementById('amountBet').value)
+        if(betAmount <= 0 || betAmount > currentTokens){
+            alert('Invalid bet amount!')
+            return
+        }
+        currentTokens -= betAmount
+        updateAmounts()
+        
+        if(randomNumber<currentNumber){
+            const outcome = betAmount * 2
+            currentTokens += outcome
+            updateAmounts()
+            document.getElementById('higherOrLowerResult').innerText = 'You won two times your bet: $' + outcome 
+        }else{
+            const outcome = -betAmount
+            document.getElementById('higherOrLowerResult').innerText = 'You lost, your outcome is: $' + outcome 
+        }
+        currentNumber = randomNumber
+        document.getElementById('currentNumber').innerText = randomNumber
+        
+    }   
+    function doubleOrNothing(){
+        const betAmount = parseFloat(document.getElementById('doubleOrNothingBet').value)
+        console.log(betAmount)
+        if(betAmount <= currentTokens){
+            currentTokens -= betAmount
+            updateAmounts()
+            const randomNumber = getRandomInt(2)
+            if(randomNumber === 1){
+                const outcome = 'Nothing'
+                document.getElementById('gameResult').innerText = outcome
+            } else{
+                const outcome = betAmount * 2
+                currentTokens += outcome
+                updateAmounts()
+                document.getElementById('gameResult').innerText = 'Double: You won $' + outcome 
+            }
+        }
+    }
+</script>
+</html>
