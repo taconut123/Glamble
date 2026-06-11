@@ -39,7 +39,6 @@
         width: 100px;
     }
     .bankButtonGrid{
-        position: flex;
         display: grid;
         align-items: center;
         grid-template-columns: repeat(6,1fr);
@@ -47,7 +46,7 @@
         justify-items: center;
     }
     .bankButtonGrid button {
-        width: 150px;
+        width: 175px;
         background-color: wheat;
         border: 2px solid #8b7355;
     }
@@ -84,7 +83,7 @@
 </head>
 <body>
     <h1 id='title'>Fake Token Game</h1>
-    <p id='version'>V.1.0</p>
+    <p>V.1.1</p>
 
     <p>
         Add fake token <input type='number' id='addFakeToken' name='addFakeToken' value='1' step = '1' autocomplete="off""> <button id=addTokens onclick="addTokens()">Add fake tokens</button>
@@ -96,12 +95,12 @@
     <h2>Bank</h2>
     <p>Bank Amount: $<span id="bankAmount">100000.00</span></p>
     <div class = 'bankButtonGrid'>
-        <button id='depositToBank' onclick="depositAllToBank()">deposit All to Bank</button> 
-        <button id='depositToBank' onclick="withdrawAllFromBank()">Withdraw All to Bank</button> 
-        <button id='depositToBank' onclick="withdrawTokens(1)">Withdraw 1 Token</button> 
-        <button id='depositToBank' onclick="withdrawTokens(10)">Withdraw 10 Tokens</button> 
-        <button id='depositToBank' onclick="withdrawTokens(100)">Withdraw 100 Tokens</button> 
-        <button id='depositToBank' onclick="withdrawTokens(500)">Withdraw 500 Tokens</button> 
+        <button class='depositToBank' onclick="depositAllToBank()">deposit All to Bank</button> 
+        <button class='depositToBank' onclick="withdrawAllFromBank()">Withdraw All from Bank</button> 
+        <button class='depositToBank' onclick="withdrawTokens(1)">Withdraw 1 Token</button> 
+        <button class='depositToBank' onclick="withdrawTokens(10)">Withdraw 10 Tokens</button> 
+        <button class='depositToBank' onclick="withdrawTokens(100)">Withdraw 100 Tokens</button> 
+        <button class='depositToBank' onclick="withdrawTokens(500)">Withdraw 500 Tokens</button> 
     </div>
     <p id='bankWarning'></p>
     
@@ -124,7 +123,7 @@
         <p>Roll a dice and win if it lands on six!</p>
         <button id='diceGame' onclick="diceGame()">Roll Dice (Cost: 10 Tokens)</button>
         <p>Dice Result: <span id='diceResult'></span> </p>
-        <p>Winnings: <span id='diceWinnings'></span></p>
+        <p>Game Result: <span id='diceGameResult'></span></p>
       
     <hr class="line">
 
@@ -144,7 +143,7 @@
   
     <h2>Double or Nothing Game</h2>
         <p>Enter the amount to bet: <input type = 'number' id='doubleOrNothingBet' name = 'doubleOrNothingBet' value = '1' step = '1' autocomplete="off""> </p>
-        <button id=addTokens onclick="doubleOrNothing()">Play Double or Nothing</button>
+        <button id="doubleOrNothing" onclick="doubleOrNothing()">Play Double or Nothing</button>
         <p>Game Result: <span id='gameResult'></span> </p>
         <p>New Amount: $<span id="newAmount2">0.00</span></p>
 
@@ -154,12 +153,16 @@
     let currentTokens = 0
     let bankAmount = 100000
     let currentNumber = 50
+
+    loadProgress()
+    
     // Helper functions
     function updateAmounts(){
         document.getElementById('currentAmount').innerText = currentTokens.toFixed(2)
         document.getElementById('bankAmount').innerText = bankAmount.toFixed(2)
         document.getElementById('newAmount').innerText = currentTokens.toFixed(2)
         document.getElementById('newAmount2').innerText = currentTokens.toFixed(2)
+        saveProgress()
     }
     function getRandomInt(max){
         return Math.floor(Math.random()*max) + 1
@@ -239,10 +242,10 @@
         if(result === 6){
             const winnings = 60
             currentTokens += winnings
-            document.getElementById('diceWinnings').innerText = '$'+winnings
+            document.getElementById('diceGameResult').innerText = "You won "+'$'+winnings+"\n New  Amount: $"+ String(currentTokens)
         }else{
             const winnings = 'You Lost'
-            document.getElementById('diceWinnings').innerText = winnings
+            document.getElementById('diceGameResult').innerText = winnings +", New  Amount: $"+ String(currentTokens)
         }
         updateAmounts()
         }
@@ -298,6 +301,18 @@
                 updateAmounts()
                 document.getElementById('gameResult').innerText = 'Double: You won $' + outcome 
             }
+        }
+    }
+    function saveProgress(){
+        localStorage.setItem("CurrentTokens",currentTokens);
+        localStorage.setItem("BankAmount",bankAmount)
+    }
+    function loadProgress(){
+        if(localStorage.getItem("CurrentTokens") !== null, localStorage.getItem("BankAmount") !== null){
+            currentTokens = parseFloat(localStorage.getItem("CurrentTokens"));
+            bankAmount = parseFloat(localStorage.getItem("BankAmount"))
+            console.log(currentTokens)
+            updateAmounts()
         }
     }
 </script>
