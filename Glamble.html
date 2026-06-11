@@ -6,6 +6,7 @@
     <link href = 'https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <title>Glamble</title>
     <style>
+
     body {
         background-color: #0c1c24;
         display: flex;
@@ -19,34 +20,36 @@
         color: wheat;
         text-align: center;
         line-height: 110%;
-        font-size: 2vw;
+        font-size: 35px;
         margin-bottom: -1%;
         font-weight: bold;
     }
     #verison {
         color:wheat;
+        font-size:20px;
     }
     h2 {
         text-align: center;
         color: wheat;
         font-weight: bold;
+        font-size: 20px;
     }
     p {
         color:wheat;
-        font-size: 1.2vw;
+        font-size: 15px;
     }
     #addFakeToken{
         width: 100px;
     }
     .bankButtonGrid{
-        display: grid;
+        display: flex;
+        flex-wrap: wrap;
         align-items: center;
-        grid-template-columns: repeat(6,1fr);
         gap: 10px;
-        justify-items: center;
     }
     .bankButtonGrid button {
-        width: 175px;
+        flex: 1;
+        min-width: 175px;
         background-color: wheat;
         border: 2px solid #8b7355;
     }
@@ -63,12 +66,12 @@
         border: 2px solid #8b7355;
     }
     #risk {
-        font-size: 1vw;
+        font-size: 15px;
     }
     #footer {
         position: static;
         bottom: 0;
-        font-size: 0.8vw;
+        font-size: 12px;
         padding-top: 2%;
     }
     .line {
@@ -83,7 +86,7 @@
 </head>
 <body>
     <h1 id='title'>Fake Token Game</h1>
-    <p>V.1.1</p>
+    <p>V.1.1.1</p>
 
     <p>
         Add fake token <input type='number' id='addFakeToken' name='addFakeToken' value='1' step = '1' autocomplete="off""> <button id=addTokens onclick="addTokens()">Add fake tokens</button>
@@ -131,7 +134,7 @@
     <h2>Higher or Lower Game</h2>
         <p>Guess if the next number will be higher or lower than the current number!</p>
         <p>Current Number: <span id="currentNumber">50</span></p>
-        <p>Enter the amount to bet: <input type = 'number' id='higherOrLowerBet' name = 'higherOrLowerBet' value = '1' step = '1' autocomplete="off""> </p>
+        <p>Enter the amount to bet: <input type = 'number' id='higherOrLowerBet' name = 'higherOrLowerBet' value = '1' step = '1' autocomplete="off"> </p>
         <div class = 'HigherOrLower'>
             <button id='higher' onclick="higherOrLower('high')">Higher</button>
             <button id='lower' onclick="higherOrLower('low')">Lower</button>
@@ -142,12 +145,12 @@
 
   
     <h2>Double or Nothing Game</h2>
-        <p>Enter the amount to bet: <input type = 'number' id='doubleOrNothingBet' name = 'doubleOrNothingBet' value = '1' step = '1' autocomplete="off""> </p>
+        <p>Enter the amount to bet: <input type = 'number' id='doubleOrNothingBet' name = 'doubleOrNothingBet' value = '1' step = '1' autocomplete="off"> </p>
         <button id="doubleOrNothing" onclick="doubleOrNothing()">Play Double or Nothing</button>
         <p>Game Result: <span id='gameResult'></span> </p>
         <p>New Amount: $<span id="newAmount2">0.00</span></p>
 
-    <p id="footer">Fake token game is a cool thing</p>
+    <p id="footer">Glamble is a cool thing<br>Verison.Major.Minor.Fixes<br></p>
 </body>
 <script>
     let currentTokens = 0
