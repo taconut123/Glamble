@@ -5,318 +5,439 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href = 'https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <title>Glamble</title>
+    <script src="script.js" defer></script>
     <style>
-
-    body {
-        background-color: #0c1c24;
-        display: flex;
-        font-family: 'Roboto', sans-serif;
-        flex-direction: column;
-        align-items: center;
-        margin: 0;
-
-    }
-    #title {
-        color: wheat;
-        text-align: center;
-        line-height: 110%;
-        font-size: 35px;
-        margin-bottom: -1%;
-        font-weight: bold;
-    }
-    #verison {
-        color:wheat;
-        font-size:20px;
-    }
-    h2 {
-        text-align: center;
-        color: wheat;
-        font-weight: bold;
-        font-size: 20px;
-    }
-    p {
-        color:wheat;
-        font-size: 15px;
-    }
-    #addFakeToken{
-        width: 100px;
-    }
-    .bankButtonGrid{
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 10px;
-    }
-    .bankButtonGrid button {
-        flex: 1;
-        min-width: 175px;
-        background-color: wheat;
-        border: 2px solid #8b7355;
-    }
-    button{
-        background-color: wheat;
-        border: 2px solid #8b7355;
-    }
-    input{
-        background-color: wheat;
-        border: 2px solid #8b7355;
-    }
-    select{
-        background-color: wheat;
-        border: 2px solid #8b7355;
-    }
-    #risk {
-        font-size: 15px;
-    }
-    #footer {
-        position: static;
-        bottom: 0;
-        font-size: 12px;
-        padding-top: 2%;
-    }
-    .line {
-        border: none;
-        background-image: linear-gradient(to right, transparent,#15424d,transparent);
-        height: 3px;
-        width: 95%;
-        margin: 20px auto;
-        opacity: 30%;
-    }
-</style>
+        body {
+            margin: 0px;
+            background-color: #0c1c24;
+            font-family: 'Roboto', sans-serif;
+        }
+        .container {
+            display: flex;
+            height: 100svh;
+            min-height: 100svh;
+            max-height: 100svh;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 25%;
+            min-width: 25%;
+            background: rgb(29, 29, 29);
+            overflow-y: auto;
+        }
+        .main {
+            min-width: fit-content;
+            flex: 1;
+            overflow-y: auto;
+            margin-left: 20px;
+            margin-right: 20px;
+            display: block;
+            min-width: 0;
+        }
+        .game1 {
+            min-width: fit-content;
+            flex: 1;
+            overflow-y: auto;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .game2 {
+            min-width: fit-content;
+            flex: 1;
+            overflow-y: auto;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .game3 {
+            min-width: fit-content;
+            flex: 1;
+            overflow-y: auto;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .game4 {
+            min-width: fit-content;
+            flex: 1;
+            overflow-y: auto;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        h1 {
+            text-align: center;
+            color:white;
+        }
+        h2 {
+            color: wheat;
+        }
+        p {
+            font-size: clamp(0.45rem, 2vw, 1rem); 
+            color:wheat
+        }
+        #current-amount {
+            text-align: center;
+        }
+        .navbar ul {
+            list-style-type: none;
+            background-color: rgb(31, 31, 31);
+            padding: 0px;
+            margin: 0px;
+        }
+        .navbar a{
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            display:block;
+            text-align: center;
+        }
+        .navbar a:hover {
+            background-color: rgb(10, 10, 10);
+        }
+        input{
+            background-color: wheat;
+            border: 2px solid #8b7355;
+        }
+        button{
+            background-color: wheat;
+            border: 2px solid #8b7355;
+            max-height: 22px;
+            font-size: clamp(0.45rem, 2vw, 0.9rem); 
+        }   
+        select{
+            background-color: wheat;
+            border: 2px solid #8b7355;
+        }
+        .line {
+            border: none;
+            background-image: linear-gradient(to right, transparent,#15424d,transparent);
+            height: 3px;
+            width: 95%;
+            margin: 20px auto;
+            opacity: 30%;
+        }
+        .bankButtonGrid{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .bankButtonGrid button {
+            flex: 1;
+            min-width: 175px;
+            background-color: wheat;
+            border: 2px solid #8b7355;
+        }
+        .main {
+            margin-right: 20px;
+            display: block;
+        }
+        #add-tokens{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .game1{
+            display:none;
+        }
+        .game2{
+            display:none;
+        }
+        .game3{
+            display:none;
+        }
+        .game4{
+            display:none; 
+        }
+        
+        .sidebar-buttons {
+            background-color: #1d1d1d;
+            width: 100%;
+            color: white;
+            border: none;
+            max-height: 49px;
+            height: 49px;
+        }
+        .sidebar-buttons:hover {
+            background-color: black;
+        }
+    </style>
 </head>
 <body>
-    <h1 id='title'>Fake Token Game</h1>
-    <p>V.1.1.1</p>
+    <div class="container">
+        <aside class="sidebar">
+            <h1>Glamble</h1>
+            <p id="current-amount"><b>Current Amount: $</b><span id="currentAmount">0.00</span></p>
+            <nav class="navbar">
+                <ul>
+                    <li><button class="sidebar-buttons" onclick="homeUi()">Home</button></li>
+                    <li><button class="sidebar-buttons" onclick="multiplierUi()">Multiplier Game</button></li>
+                    <li><button class="sidebar-buttons" onclick="diceUi()">Dice Game</button></li>
+                    <li><button class="sidebar-buttons" onclick="higherOrLowerUi()">Higher or lower Game</button></li>
+                    <li><button class="sidebar-buttons" onclick="doubleOrNothingUi()">Double or Nothing Game</button></li>
+                </ul>
+            </nav>
+        </aside>
 
-    <p>
-        Add fake token <input type='number' id='addFakeToken' name='addFakeToken' value='1' step = '1' autocomplete="off""> <button id=addTokens onclick="addTokens()">Add fake tokens</button>
-    </p>
-    <p><b>Current Amount: $</b><span id="currentAmount">0.00</span></p>
+        <main class="main">
+            <p id="add-tokens">
+                Add Tokens <input type='number' id='addFakeToken' name='addFakeToken' value='1' step = '1' autocomplete="off"> <button id=addTokens onclick="addTokens()">Add fake tokens</button>
+            </p>
 
-    <hr class="line">
+            <hr class="line">
 
-    <h2>Bank</h2>
-    <p>Bank Amount: $<span id="bankAmount">100000.00</span></p>
-    <div class = 'bankButtonGrid'>
-        <button class='depositToBank' onclick="depositAllToBank()">deposit All to Bank</button> 
-        <button class='depositToBank' onclick="withdrawAllFromBank()">Withdraw All from Bank</button> 
-        <button class='depositToBank' onclick="withdrawTokens(1)">Withdraw 1 Token</button> 
-        <button class='depositToBank' onclick="withdrawTokens(10)">Withdraw 10 Tokens</button> 
-        <button class='depositToBank' onclick="withdrawTokens(100)">Withdraw 100 Tokens</button> 
-        <button class='depositToBank' onclick="withdrawTokens(500)">Withdraw 500 Tokens</button> 
+            <h2>Bank</h2>
+            <p>Bank Amount: $<span id="bankAmount">100000.00</span></p>
+            <div class = 'bankButtonGrid'>
+                <button class='depositToBank' onclick="depositAllToBank()">Deposit All to Bank</button> 
+                <button class='depositToBank' onclick="withdrawAllFromBank()">Withdraw All from Bank</button> 
+                <button class='depositToBank' onclick="withdrawTokens(1)">Withdraw 1 Token</button> 
+                <button class='depositToBank' onclick="withdrawTokens(10)">Withdraw 10 Tokens</button> 
+                <button class='depositToBank' onclick="withdrawTokens(100)">Withdraw 100 Tokens</button> 
+                <button class='depositToBank' onclick="withdrawTokens(500)">Withdraw 500 Tokens</button> 
+            </div>
+            <p id='bankWarning'></p>
+            
+            <hr class="line">
+        </main>
+        <main class="game1">
+            <h2>Multiplier Game</h2>
+            <p id='risk'>Risk Mode: <select name = 'riskMode' id='riskMode'>
+                <option value = 'easy'>Easy</option>
+                <option value = 'medium'>Medium</option>
+                <option value = 'hard'>Hard</option>
+            </select></p>
+            <button id='multiplierGame' onclick="multiplierGame()">Play Multiplier Game</button>
+            
+            <hr class="line">
+        </main>
+        <main class="game2">
+            <h2>Dice Game</h2>
+            <p>Roll a dice and win if it lands on six!</p>
+            <button id='diceGame' onclick="diceGame()">Roll Dice (Cost: 10 Tokens)</button>
+            <p>Dice Result: <span id='diceResult'></span> </p>
+            <p>Game Result: <span id='diceGameResult'></span></p>
+        </main>
+        <main class="game3">
+            <h2>Higher or Lower Game</h2>
+            <p>Guess if the next number will be higher or lower than the current number!</p>
+            <p>Current Number: <span id="currentNumber">50</span></p>
+            <p>Enter the amount to bet: <input type = 'number' id='higherOrLowerBet' name = 'higherOrLowerBet' value = '1' step = '1' autocomplete="off"> </p>
+            <div class = 'HigherOrLower'>
+                <button id='higher' onclick="higherOrLower('high')">Higher</button>
+                <button id='lower' onclick="higherOrLower('low')">Lower</button>
+            </div>
+            <p id='higherOrLowerResult'>Game Result:</p>
+        </main>
+        <main class="game4">
+        <h2>Double or Nothing Game</h2>
+            <p>Enter the amount to bet: <input type = 'number' id='doubleOrNothingBet' name = 'doubleOrNothingBet' value = '1' step = '1' autocomplete="off"> </p>
+            <button id="doubleOrNothing" onclick="doubleOrNothing()">Play Double or Nothing</button>
+            <p>Game Result: <span id='gameResult'></span> </p>
+            <p>New Amount: $<span id="newAmount2">0.00</span></p>
+        </main>
     </div>
-    <p id='bankWarning'></p>
-    
-    <hr class="line">
-
-
-    <h2>Multiplier Game</h2>
-        <p id='risk'>Risk Mode: <select name = 'riskMode' id='riskMode'>
-            <option value = 'easy'>Easy</option>
-            <option value = 'medium'>Medium</option>
-            <option value = 'hard'>Hard</option>
-        </select></p>
-        <button id='multiplierGame' onclick="multiplierGame()">Play Multiplier Game</button>
-        <p>New Amount: $<span id="newAmount">0.00</span></p>
-     
-    <hr class="line">
-
-   
-    <h2>Dice Game</h2>
-        <p>Roll a dice and win if it lands on six!</p>
-        <button id='diceGame' onclick="diceGame()">Roll Dice (Cost: 10 Tokens)</button>
-        <p>Dice Result: <span id='diceResult'></span> </p>
-        <p>Game Result: <span id='diceGameResult'></span></p>
-      
-    <hr class="line">
-
-  
-    <h2>Higher or Lower Game</h2>
-        <p>Guess if the next number will be higher or lower than the current number!</p>
-        <p>Current Number: <span id="currentNumber">50</span></p>
-        <p>Enter the amount to bet: <input type = 'number' id='higherOrLowerBet' name = 'higherOrLowerBet' value = '1' step = '1' autocomplete="off"> </p>
-        <div class = 'HigherOrLower'>
-            <button id='higher' onclick="higherOrLower('high')">Higher</button>
-            <button id='lower' onclick="higherOrLower('low')">Lower</button>
-        </div>
-        <p id='higherOrLowerResult'>Game Result:</p>
-      
-    <hr class="line">
-
-  
-    <h2>Double or Nothing Game</h2>
-        <p>Enter the amount to bet: <input type = 'number' id='doubleOrNothingBet' name = 'doubleOrNothingBet' value = '1' step = '1' autocomplete="off"> </p>
-        <button id="doubleOrNothing" onclick="doubleOrNothing()">Play Double or Nothing</button>
-        <p>Game Result: <span id='gameResult'></span> </p>
-        <p>New Amount: $<span id="newAmount2">0.00</span></p>
-
-    <p id="footer">Glamble is a cool thing<br>Verison.Major.Minor.Fixes<br></p>
 </body>
 <script>
     let currentTokens = 0
-    let bankAmount = 100000
-    let currentNumber = 50
+let bankAmount = 100000
+let currentNumber = 50
 
-    loadProgress()
-    
-    // Helper functions
-    function updateAmounts(){
-        document.getElementById('currentAmount').innerText = currentTokens.toFixed(2)
-        document.getElementById('bankAmount').innerText = bankAmount.toFixed(2)
-        document.getElementById('newAmount').innerText = currentTokens.toFixed(2)
-        document.getElementById('newAmount2').innerText = currentTokens.toFixed(2)
-        saveProgress()
-    }
-    function getRandomInt(max){
-        return Math.floor(Math.random()*max) + 1
-    }
+loadProgress()
+// Ui Functions
+function homeUi(){
+    document.querySelector(".main").style.display = "block";
+    document.querySelector(".game1").style.display = "none";
+    document.querySelector(".game2").style.display = "none";
+    document.querySelector(".game3").style.display = "none";
+    document.querySelector(".game4").style.display = "none";
+}
+function multiplierUi(){
+    document.querySelector(".main").style.display = "none";
+    document.querySelector(".game1").style.display = "block";
+    document.querySelector(".game2").style.display = "none";
+    document.querySelector(".game3").style.display = "none";
+    document.querySelector(".game4").style.display = "none";
+}
+function diceUi(){
+    document.querySelector(".main").style.display = "none";
+    document.querySelector(".game1").style.display = "none";
+    document.querySelector(".game2").style.display = "block";
+    document.querySelector(".game3").style.display = "none";
+    document.querySelector(".game4").style.display = "none";
+}
+function higherOrLowerUi(){
+    document.querySelector(".main").style.display = "none";
+    document.querySelector(".game1").style.display = "none";
+    document.querySelector(".game2").style.display = "none";
+    document.querySelector(".game3").style.display = "block";
+    document.querySelector(".game4").style.display = "none";
+}
+function doubleOrNothingUi(){
+    document.querySelector(".main").style.display = "none";
+    document.querySelector(".game1").style.display = "none";
+    document.querySelector(".game2").style.display = "none";
+    document.querySelector(".game3").style.display = "none";
+    document.querySelector(".game4").style.display = "block";
+}
+// Helper functions
+function updateAmounts(){
+    document.getElementById('currentAmount').innerText = currentTokens.toFixed(2)
+    document.getElementById('bankAmount').innerText = bankAmount.toFixed(2)
+    saveProgress()
+}
+function getRandomInt(max){
+    return Math.floor(Math.random()*max) + 1
+}
+// Other Functions
 
-    function addTokens(){
-        const addAmount = parseFloat(document.getElementById('addFakeToken').value)
-        currentTokens += addAmount
+function addTokens(){
+    const addAmount = parseFloat(document.getElementById('addFakeToken').value)
+    currentTokens += addAmount
+    updateAmounts()
+}
+function depositAllToBank(){
+    bankAmount += currentTokens
+    currentTokens = 0
+    updateAmounts()
+}
+function withdrawAllFromBank(){
+    currentTokens += bankAmount
+    bankAmount = 0
+    updateAmounts()
+}
+function withdrawTokens(amount){
+    if(bankAmount >= amount){
+        bankAmount -= amount
+        currentTokens += amount
         updateAmounts()
+    } else {
+        document.getElementById('bankWarning').innerText = "The bank does not have enough money to withdraw!"
+        setTimeout(() => {
+            document.getElementById('bankWarning').innerText = ""
+        }, 10000);
     }
-    function depositAllToBank(){
-        bankAmount += currentTokens
-        currentTokens = 0
-        updateAmounts()
-    }
-    function withdrawAllFromBank(){
-        currentTokens += bankAmount
-        bankAmount = 0
-        updateAmounts()
-    }
-    function withdrawTokens(amount){
-        if(bankAmount >= amount){
-            bankAmount -= amount
-            currentTokens += amount
-            updateAmounts()
-        } else {
-            document.getElementById('bankWarning').innerText = "The bank does not have enough money to withdraw!"
-            setTimeout(() => {
-                document.getElementById('bankWarning').innerText = ""
-            }, 10000);
-        }
-    }
-    function multiplierGame(){
-        const randomNumber = getRandomInt(100)
-        let outcome = 0
-        const risk = document.getElementById('riskMode').value
-        if(risk === 'easy'){
-            if(randomNumber<=40){
-                outcome = (currentTokens * 0.8)
-            }else if(randomNumber<=70){
-                outcome = (currentTokens * 1)
-            }else if(randomNumber<=95){
-                outcome = (currentTokens * 1.1)
-            }else{
-                outcome = (currentTokens * 2)
-            }
-        }else if(risk === 'medium'){
-            if(randomNumber<55){
-                outcome = (currentTokens * 0.5)
-            }else if(randomNumber<85){
-                outcome = (currentTokens * 1)
-            }else if(randomNumber<95){
-                outcome = (currentTokens * 2)
-            }else{
-                outcome = (currentTokens * 3)
-            }
-        }else if(risk === 'hard'){
-            if(randomNumber<=60){
-                outcome = (currentTokens * 0)
-            }else if(randomNumber<=90){
-                outcome = (currentTokens * 1)
-            }else if(randomNumber<=99){
-                outcome = (currentTokens * 5)
-            }else {
-                outcome = (currentTokens * 20)
-        }}
-        currentTokens = outcome
-        updateAmounts()
-    }
-
-    function diceGame(){
-        if (currentTokens >= 10){
-        currentTokens -= 10
-        updateAmounts()
-        const result = getRandomInt(6)
-        document.getElementById('diceResult').innerText = result
-        if(result === 6){
-            const winnings = 60
-            currentTokens += winnings
-            document.getElementById('diceGameResult').innerText = "You won "+'$'+winnings+"\n New  Amount: $"+ String(currentTokens)
+}
+function multiplierGame(){
+    const randomNumber = getRandomInt(100)
+    let outcome = 0
+    const risk = document.getElementById('riskMode').value
+    if(risk === 'easy'){
+        if(randomNumber<=40){
+            outcome = (currentTokens * 0.8)
+        }else if(randomNumber<=70){
+            outcome = (currentTokens * 1)
+        }else if(randomNumber<=95){
+            outcome = (currentTokens * 1.1)
         }else{
-            const winnings = 'You Lost'
-            document.getElementById('diceGameResult').innerText = winnings +", New  Amount: $"+ String(currentTokens)
+            outcome = (currentTokens * 2)
         }
-        updateAmounts()
+    }else if(risk === 'medium'){
+        if(randomNumber<55){
+            outcome = (currentTokens * 0.5)
+        }else if(randomNumber<85){
+            outcome = (currentTokens * 1)
+        }else if(randomNumber<95){
+            outcome = (currentTokens * 2)
+        }else{
+            outcome = (currentTokens * 3)
+        }
+    }else if(risk === 'hard'){
+        if(randomNumber<=60){
+            outcome = (currentTokens * 0)
+        }else if(randomNumber<=90){
+            outcome = (currentTokens * 1)
+        }else if(randomNumber<=99){
+            outcome = (currentTokens * 5)
+        }else {
+            outcome = (currentTokens * 20)
+    }}
+    currentTokens = outcome
+    updateAmounts()
+}
+
+function diceGame(){
+    if (currentTokens >= 10){
+    currentTokens -= 10
+    updateAmounts()
+    const result = getRandomInt(6)
+    document.getElementById('diceResult').innerText = result
+    if(result === 6){
+        const winnings = 60
+        currentTokens += winnings
+        document.getElementById('diceGameResult').innerText = "You won "+'$'+winnings+"\n New  Amount: $"+ String(currentTokens.toFixed(2))
+    }else{
+        const winnings = 'You Lost'
+        document.getElementById('diceGameResult').innerText = winnings +", New  Amount: $"+ String(currentTokens.toFixed(2))
+    }
+    updateAmounts()
+    }
+}
+
+function higherOrLower(highOrLow){
+    const randomNumber = getRandomInt(100)
+    const betAmount = parseFloat(document.getElementById('higherOrLowerBet').value)
+    if(betAmount <= 0 || betAmount > currentTokens){
+        alert('Invalid bet amount!')
+        return
+    }
+    currentTokens -= betAmount
+    updateAmounts()
+    if(highOrLow === 'high'){
+        if(randomNumber>currentNumber){
+            const outcome = betAmount * 2
+            currentTokens += outcome
+            updateAmounts()
+            document.getElementById('higherOrLowerResult').innerText = 'You won two times your bet: $' + outcome 
+        }else{
+            const outcome = -betAmount
+            document.getElementById('higherOrLowerResult').innerText = 'You lost, your outcome is: $' + outcome 
+        }
+    }else if(highOrLow === 'low'){
+        if(randomNumber<currentNumber){
+            const outcome = betAmount * 2
+            currentTokens += outcome
+            updateAmounts()
+            document.getElementById('higherOrLowerResult').innerText = 'You won two times your bet: $' + outcome 
+        }else{
+            const outcome = -betAmount
+            document.getElementById('higherOrLowerResult').innerText = 'You lost, your outcome is: $' + outcome 
         }
     }
+    currentNumber = randomNumber
+    document.getElementById('currentNumber').innerText = randomNumber
+}   
 
-    function higherOrLower(highOrLow){
-        const randomNumber = getRandomInt(100)
-        const betAmount = parseFloat(document.getElementById('higherOrLowerBet').value)
-        if(betAmount <= 0 || betAmount > currentTokens){
-            alert('Invalid bet amount!')
-            return
-        }
+function doubleOrNothing(){
+    const betAmount = parseFloat(document.getElementById('doubleOrNothingBet').value)
+    console.log(betAmount)
+    if(betAmount <= currentTokens){
         currentTokens -= betAmount
         updateAmounts()
-        if(highOrLow === 'high'){
-            if(randomNumber>currentNumber){
-                const outcome = betAmount * 2
-                currentTokens += outcome
-                updateAmounts()
-                document.getElementById('higherOrLowerResult').innerText = 'You won two times your bet: $' + outcome 
-            }else{
-                const outcome = -betAmount
-                document.getElementById('higherOrLowerResult').innerText = 'You lost, your outcome is: $' + outcome 
-            }
-        }else if(highOrLow === 'low'){
-            if(randomNumber<currentNumber){
-                const outcome = betAmount * 2
-                currentTokens += outcome
-                updateAmounts()
-                document.getElementById('higherOrLowerResult').innerText = 'You won two times your bet: $' + outcome 
-            }else{
-                const outcome = -betAmount
-                document.getElementById('higherOrLowerResult').innerText = 'You lost, your outcome is: $' + outcome 
-            }
-        }
-        currentNumber = randomNumber
-        document.getElementById('currentNumber').innerText = randomNumber
-    }   
-    
-    function doubleOrNothing(){
-        const betAmount = parseFloat(document.getElementById('doubleOrNothingBet').value)
-        console.log(betAmount)
-        if(betAmount <= currentTokens){
-            currentTokens -= betAmount
+        const randomNumber = getRandomInt(2)
+        if(randomNumber === 1){
+            const outcome = 'Nothing'
+            document.getElementById('gameResult').innerText = outcome
+        } else{
+            const outcome = betAmount * 2
+            currentTokens += outcome
             updateAmounts()
-            const randomNumber = getRandomInt(2)
-            if(randomNumber === 1){
-                const outcome = 'Nothing'
-                document.getElementById('gameResult').innerText = outcome
-            } else{
-                const outcome = betAmount * 2
-                currentTokens += outcome
-                updateAmounts()
-                document.getElementById('gameResult').innerText = 'Double: You won $' + outcome 
-            }
+            document.getElementById('gameResult').innerText = 'Double: You won $' + outcome 
         }
     }
-    function saveProgress(){
-        localStorage.setItem("CurrentTokens",currentTokens);
-        localStorage.setItem("BankAmount",bankAmount)
+}
+function saveProgress(){
+    localStorage.setItem("CurrentTokens",currentTokens);
+    localStorage.setItem("BankAmount",bankAmount)
+}
+function loadProgress(){
+    if(localStorage.getItem("CurrentTokens") !== null && localStorage.getItem("BankAmount") !== null){
+        currentTokens = parseFloat(localStorage.getItem("CurrentTokens"));
+        bankAmount = parseFloat(localStorage.getItem("BankAmount"))
+        console.log(currentTokens)
+        updateAmounts()
     }
-    function loadProgress(){
-        if(localStorage.getItem("CurrentTokens") !== null, localStorage.getItem("BankAmount") !== null){
-            currentTokens = parseFloat(localStorage.getItem("CurrentTokens"));
-            bankAmount = parseFloat(localStorage.getItem("BankAmount"))
-            console.log(currentTokens)
-            updateAmounts()
-        }
-    }
+}
 </script>
 </html>
