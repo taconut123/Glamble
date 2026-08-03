@@ -34,6 +34,9 @@
             display: block;
             min-width: 0;
         }
+        #top-line {
+            margin-top: 1%;
+        }
         .game1 {
             min-width: fit-content;
             flex: 1;
@@ -181,6 +184,7 @@
         </aside>
 
         <main class="main">
+            <hr class="line" id="top-line">
             <p id="add-tokens">
                 Add Tokens <input type='number' id='addFakeToken' name='addFakeToken' value='1' step = '1' autocomplete="off"> <button id=addTokens onclick="addTokens()">Add fake tokens</button>
             </p>
@@ -203,6 +207,7 @@
         </main>
         <main class="game1">
             <h2>Multiplier Game</h2>
+            <p>Enter the amount to bet: <input type = 'number' id='multiplierGameBet' name = 'multiplierGameBet' value = '1' step = '1' autocomplete="off"> </p>
             <p id='risk'>Risk Mode: <select name = 'riskMode' id='riskMode'>
                 <option value = 'easy'>Easy</option>
                 <option value = 'medium'>Medium</option>
@@ -215,7 +220,8 @@
         <main class="game2">
             <h2>Dice Game</h2>
             <p>Roll a dice and win if it lands on six!</p>
-            <button id='diceGame' onclick="diceGame()">Roll Dice (Cost: 10 Tokens)</button>
+            <p>Enter the amount to bet: <input type = 'number' id='diceGameBet' name = 'diceGameBet' value = '1' step = '1' autocomplete="off"> </p>
+            <button id='diceGame' onclick="diceGame()">Roll Dice</button>
             <p>Dice Result: <span id='diceResult'></span> </p>
             <p>Game Result: <span id='diceGameResult'></span></p>
         </main>
@@ -319,52 +325,61 @@ function withdrawTokens(amount){
         }, 10000);
     }
 }
+function bettingSystem(id){
+    const betAmount = parseFloat(document.getElementById(id).value)
+    if(betAmount <= 0 || betAmount > currentTokens){
+        alert('Invalid bet amount!')
+        return
+    }
+    currentTokens -= betAmount
+    updateAmounts()
+    return betAmount
+}
 function multiplierGame(){
     const randomNumber = getRandomInt(100)
     let outcome = 0
+    const betAmount = bettingSystem('multiplierGameBet')
     const risk = document.getElementById('riskMode').value
     if(risk === 'easy'){
         if(randomNumber<=40){
-            outcome = (currentTokens * 0.8)
+            outcome = (betAmount * 0.8)
         }else if(randomNumber<=70){
-            outcome = (currentTokens * 1)
+            outcome = (betAmount * 1)
         }else if(randomNumber<=95){
-            outcome = (currentTokens * 1.1)
+            outcome = (betAmount * 1.1)
         }else{
-            outcome = (currentTokens * 2)
+            outcome = (betAmount * 2)
         }
     }else if(risk === 'medium'){
         if(randomNumber<55){
-            outcome = (currentTokens * 0.5)
+            outcome = (betAmount * 0.5)
         }else if(randomNumber<85){
-            outcome = (currentTokens * 1)
+            outcome = (betAmount * 1)
         }else if(randomNumber<95){
-            outcome = (currentTokens * 2)
+            outcome = (betAmount * 2)
         }else{
-            outcome = (currentTokens * 3)
+            outcome = (betAmount * 3)
         }
     }else if(risk === 'hard'){
         if(randomNumber<=60){
-            outcome = (currentTokens * 0)
+            outcome = (betAmount * 0)
         }else if(randomNumber<=90){
-            outcome = (currentTokens * 1)
+            outcome = (betAmount * 1)
         }else if(randomNumber<=99){
-            outcome = (currentTokens * 5)
+            outcome = (betAmount * 5)
         }else {
-            outcome = (currentTokens * 20)
+            outcome = (betAmount * 20)
     }}
-    currentTokens = outcome
+    currentTokens += outcome
     updateAmounts()
 }
 
 function diceGame(){
-    if (currentTokens >= 10){
-    currentTokens -= 10
-    updateAmounts()
+    betAmount = bettingSystem('diceGameBet')
     const result = getRandomInt(6)
     document.getElementById('diceResult').innerText = result
     if(result === 6){
-        const winnings = 60
+        const winnings = betAmount * 6
         currentTokens += winnings
         document.getElementById('diceGameResult').innerText = "You won "+'$'+winnings+"\n New  Amount: $"+ String(currentTokens.toFixed(2))
     }else{
@@ -373,17 +388,10 @@ function diceGame(){
     }
     updateAmounts()
     }
-}
 
 function higherOrLower(highOrLow){
     const randomNumber = getRandomInt(100)
-    const betAmount = parseFloat(document.getElementById('higherOrLowerBet').value)
-    if(betAmount <= 0 || betAmount > currentTokens){
-        alert('Invalid bet amount!')
-        return
-    }
-    currentTokens -= betAmount
-    updateAmounts()
+    const betAmount = bettingSystem('higherOrLowerBet')
     if(highOrLow === 'high'){
         if(randomNumber>currentNumber){
             const outcome = betAmount * 2
@@ -410,21 +418,16 @@ function higherOrLower(highOrLow){
 }   
 
 function doubleOrNothing(){
-    const betAmount = parseFloat(document.getElementById('doubleOrNothingBet').value)
-    console.log(betAmount)
-    if(betAmount <= currentTokens){
-        currentTokens -= betAmount
+    const betAmount = bettingSystem('doubleOrNothingBet')
+    const randomNumber = getRandomInt(2)
+    if(randomNumber === 1){
+        const outcome = 'Nothing'
+        document.getElementById('gameResult').innerText = outcome
+    } else{
+        const outcome = betAmount * 2
+        currentTokens += outcome
         updateAmounts()
-        const randomNumber = getRandomInt(2)
-        if(randomNumber === 1){
-            const outcome = 'Nothing'
-            document.getElementById('gameResult').innerText = outcome
-        } else{
-            const outcome = betAmount * 2
-            currentTokens += outcome
-            updateAmounts()
-            document.getElementById('gameResult').innerText = 'Double: You won $' + outcome 
-        }
+        document.getElementById('gameResult').innerText = 'Double: You won $' + outcome 
     }
 }
 function saveProgress(){
